@@ -1829,23 +1829,25 @@ class Component extends DCLogic {
     const params = new URLSearchParams(window.location.search);
     if(params.get("auth") === "success"){
       window.history.replaceState({}, "", window.location.pathname);
-      const base = (this.state.apiBase || "").replace(/\/$/, "");
-      if(!base) return;
-      try{
-        // El token vive en la cookie httpOnly del backend (auth_token); se envía
-        // con credentials:"include" y el middleware cookieToAuth lo convierte en
-        // el Authorization header (§13.3: nunca token en URL/localStorage).
-        const res = await fetch(base + "/api/auth/me", { credentials: "include" });
-        if(!res.ok) throw new Error("not authenticated");
-        const data = await res.json();
-        this.setState({
-          auth: { role: "socio", token: null },
-          socio: data.socio,
-          socioSource: data.source
-        });
-      }catch(e){
-        console.error("[oidc] failed to load socio:", e);
-      }
+    }
+    const base = (this.state.apiBase || "").replace(/\/$/, "");
+    if(!base) return;
+    try{
+      // El token vive en la cookie httpOnly del backend (auth_token); se envía
+      // con credentials:"include" y el middleware cookieToAuth lo convierte en
+      // el Authorization header (§13.3: nunca token en URL/localStorage).
+      // Se llama en CADA carga para restaurar la sesión desde la cookie (antes
+      // solo corría con ?auth=success y se perdía al recargar/navegar).
+      const res = await fetch(base + "/api/auth/me", { credentials: "include" });
+      if(!res.ok) return; // sin sesión válida — header sigue en modo deslogueado
+      const data = await res.json();
+      this.setState({
+        auth: { role: "socio", token: null },
+        socio: data.socio,
+        socioSource: data.source
+      });
+    }catch(e){
+      console.error("[oidc] failed to load socio:", e);
     }
   }
 
