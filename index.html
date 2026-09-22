@@ -1348,14 +1348,14 @@
           <summary style="font-size:18px;font-weight:700;cursor:pointer;padding:12px 0">Referencia del formato TXT</summary>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0 28px">
             <div style="border:1px solid #e5e8ec;border-radius:0;padding:16px;background:#fff"><div style="font-size:12px;font-weight:700;color:#6f6f6f;text-transform:uppercase">Formato</div><div style="font-size:18px;font-weight:800;margin-top:4px">TXT ; + CRLF</div></div>
-            <div style="border:1px solid #e5e8ec;border-radius:0;padding:16px;background:#fff"><div style="font-size:12px;font-weight:700;color:#6f6f6f;text-transform:uppercase">Campos</div><div style="font-size:18px;font-weight:800;margin-top:4px">21 en orden fijo</div></div>
+            <div style="border:1px solid #e5e8ec;border-radius:0;padding:16px;background:#fff"><div style="font-size:12px;font-weight:700;color:#6f6f6f;text-transform:uppercase">Campos</div><div style="font-size:18px;font-weight:800;margin-top:4px">22 en orden fijo</div></div>
             <div style="border:1px solid #e5e8ec;border-radius:0;padding:16px;background:#fff"><div style="font-size:12px;font-weight:700;color:#6f6f6f;text-transform:uppercase">Clave</div><div style="font-size:18px;font-weight:800;margin-top:4px">DOCUME</div></div>
           </div>
           <div style="border:1px solid #e0e0e0;border-radius:0;overflow:hidden;background:#fff">
             <div style="display:grid;grid-template-columns:64px 120px 1fr 90px 110px;background:#f4f4f4;color:#525252;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.04em">
               <div style="padding:12px 14px">Col.</div><div style="padding:12px 14px">Campo</div><div style="padding:12px 14px">Descripción</div><div style="padding:12px 14px">Max.</div><div style="padding:12px 14px">Tipo</div>
             </div>
-            <sc-for list="{{ txtLayoutRows }}" as="r" hint-placeholder-count="21">
+            <sc-for list="{{ txtLayoutRows }}" as="r" hint-placeholder-count="22">
               <div style="display:grid;grid-template-columns:64px 120px 1fr 90px 110px;border-top:1px solid #f0f0f0;font-size:13px;color:#262626">
                 <div style="padding:10px 14px;color:#6f6f6f">{{ r.n }}</div><div style="padding:10px 14px;font-weight:800">{{ r.key }}</div><div style="padding:10px 14px">{{ r.label }}</div><div style="padding:10px 14px">{{ r.bytes }}</div><div style="padding:10px 14px;color:#52606d">{{ r.kind }}</div>
               </div>
@@ -1677,7 +1677,7 @@ const SOCIO_FIELDS = [
   {key:"OFICIO",label:"Profesi\u00f3n",bytes:20,type:"text"},
   {key:"SECTO1",label:"N.\u00ba de hijos",bytes:2,type:"text"}
 ];
-const TXT_LAYOUT_FIELDS = SOCIO_FIELDS;
+const TXT_LAYOUT_FIELDS = [...SOCIO_FIELDS, {key:"LUGNAC",label:"Lugar de nacimiento",bytes:6,type:"text",readOnly:true}];
 function emptySocioForm(){ const f={}; SOCIO_FIELDS.forEach(x=>{f[x.key]="";}); return f; }
 
 class Component extends DCLogic {
