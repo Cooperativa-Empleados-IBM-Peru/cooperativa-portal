@@ -76,7 +76,7 @@
                 <div style="display:flex;align-items:center;gap:9px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg> {{ socioPhone }}</div>
               </div>
               <div style="display:flex;flex-direction:column">
-                <a onClick="{{ openPrefsFromProfile }}" style="padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;color:#161616" style-hover="background:#f4f8fc">Editar preferencias</a>
+                <a onClick="{{ goSocioPerfil }}" style="padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;color:#161616" style-hover="background:#f4f8fc">Mi Perfil</a>
                 <a onClick="{{ logout }}" style="padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;color:#8b95a1" style-hover="background:#f4f8fc">Cerrar sesión</a>
               </div>
             </div>
@@ -121,7 +121,7 @@
 
           <div style="margin-top:48px;margin-bottom:20px;display:flex;align-items:baseline;justify-content:space-between">
             <h2 style="font-size:30px;font-weight:600;letter-spacing:-0.01em">Recomendado para ti</h2>
-            <a onClick="{{ openPrefs }}" style="font-size:14px;font-weight:600;color:#0043ce;cursor:pointer">Editar preferencias</a>
+            <a onClick="{{ goSocioPerfil }}" style="font-size:14px;font-weight:600;color:#0043ce;cursor:pointer">Editar preferencias</a>
           </div>
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
             <sc-for list="{{ recomendaciones }}" as="r" hint-placeholder-count="3">
@@ -1590,7 +1590,7 @@
             <span style="margin-left:16px;font-size:14px;font-weight:600;color:#198038">{{ profileSaveMsg }}</span>
           </sc-if>
         </div>
-        <button onClick="{{ saveProfile }}" style="background:#0043ce;color:#fff;border:none;border-radius:0;padding:16px 34px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit">Guardar datos</button>
+        <button onClick="{{ goSocioPerfil }}" style="background:#0043ce;color:#fff;border:none;border-radius:0;padding:16px 34px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit">Editar mis datos</button>
       </div>
     </div>
   </div>
@@ -2376,6 +2376,7 @@ class Component extends DCLogic {
       },
 
       showPrefs: this.state.showPrefs,
+      goSocioPerfil: ()=>{ this.setState({showProfile:false, showPrefs:false}); this.go("socio-perfil"); },
       openPrefs: ()=>this.setState({showPrefs:true}),
       closePrefs: ()=>this.setState({showPrefs:false}),
       showProfile: this.state.showProfile,
