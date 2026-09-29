@@ -1689,6 +1689,15 @@ function catalogLabel(optsKey, value) {
 // R4: fields that drive the completeness banner.
 const PROFILE_KEY_FIELDS = ["DIRECC", "TELCEL", "NOMBC2", "OFICIO", "ESTCIV"];
 const TXT_LAYOUT_FIELDS = [...SOCIO_FIELDS, {key:"LUGNAC",label:"Lugar de nacimiento",bytes:6,type:"text",readOnly:true}];
+// Page registry (PRD R3): every nav key must have a rendered section flag.
+const PAGE_SECTIONS = {
+  inicio:"isInicio", quienes:"isQuienes", ahorro:"isAhorro", proveedores:"isProveedores",
+  prestamos:"isPrestamos", servicios:"isServicios", anuncios:"isAnuncios", registro:"isRegistro",
+  login:"isLogin", "fondo-sepelio":"isFondoSepelio", perufarma:"isPerufarma",
+  "prestamo-detalle":"isPrestamoDetalle", "proveedor-detalle":"isProveedorDetalle", bebidas:"isBebidas",
+  smartfit:"isSmartFit", oncosalud:"isOncosalud", rimac:"isRimac", movistar:"isMovistar",
+  "socio-perfil":"isSocioPerfil"
+};
 function emptySocioForm(){ const f={}; SOCIO_FIELDS.forEach(x=>{f[x.key]="";}); return f; }
 
 class Component extends DCLogic {
@@ -1772,7 +1781,12 @@ class Component extends DCLogic {
       {id:3,author:"Comité de Bienestar",role:"Socios",time:"hace 3 días",tag:"Convenio",color:"#009d9a",initials:"CB",tab:"proveedores",text:"🏷️ Recuerda que Oncosalud ofrece 18% de descuento sobre la tarifa de mercado para socios y familiares directos.",hasImg:false,slotId:"post-3",img:"",likes:64,liked:false}
     ] };
 
-  go(p){ this.setState({ page: p }); const m=this.mainEl; if(m) m.scrollTop=0; }
+  go(p){
+    if (window.__dev && !PAGE_SECTIONS[p]) {
+      console.error("[page-registry] nav key '" + p + "' has no rendered section — blank page bug.");
+    }
+    this.setState({ page: p }); const m=this.mainEl; if(m) m.scrollTop=0;
+  }
   get mainEl(){ return this.host && this.host.querySelector ? this.host.querySelector("main") : document.querySelector("main"); }
 
   money(n){ return "S/ " + n.toLocaleString("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
@@ -2143,6 +2157,7 @@ class Component extends DCLogic {
       isProveedores: page==="proveedores", isPrestamos: page==="prestamos", isPrestamoDetalle: page==="prestamo-detalle",
       isServicios: page==="servicios", isRegistro: page==="registro", isLogin: page==="login", isAnuncios: page==="anuncios",
       isFondoSepelio: page==="fondo-sepelio",
+      isSocioPerfil: page==="socio-perfil" && this.state.auth.role === "socio",
       isPerufarma: page==="perufarma",
       isProveedorDetalle: page==="proveedor-detalle",
       isBebidas: page==="bebidas",

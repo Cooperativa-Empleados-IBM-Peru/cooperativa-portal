@@ -517,17 +517,19 @@
         const v = resolve(vals, p);
         if (v === void 0) {
           if (!ctx?.__streamingNow) {
-            if (document.body?.hasAttribute("data-dc-editor-on")) {
+            if (document.body?.hasAttribute("data-dc-editor-on") || window.__dev) {
               return h(
                 "span",
                 { key: i, className: "sc-interp sc-unresolved" },
                 "{{ " + p.trim() + " }}"
               );
             }
-            warnUnresolved(
-              ctx,
-              "{{ " + p.trim() + " }} never resolved \u2014 rendered as empty"
-            );
+            if (window.__dev) {
+              warnUnresolved(
+                ctx,
+                "{{ " + p.trim() + " }} never resolved \u2014 rendered as empty"
+              );
+            }
             return null;
           }
           return h(
