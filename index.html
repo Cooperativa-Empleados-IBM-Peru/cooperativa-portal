@@ -1424,6 +1424,12 @@
             <input type="text" value="{{ profileEdit.PROVIN }}" onInput="{{ onProfileField('PROVIN') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
           <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Departamento</label>
             <input type="text" value="{{ profileEdit.DEPART }}" onInput="{{ onProfileField('DEPART') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Nombre completo de ubicación</label>
+            <input type="text" value="{{ profileEdit.NCOMPL }}" onInput="{{ onProfileField('NCOMPL') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Ciudad</label>
+            <input type="text" value="{{ profileEdit.CCIUDA }}" onInput="{{ onProfileField('CCIUDA') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Nombre del cónyuge</label>
+            <input type="text" value="{{ profileEdit.NOMCON }}" onInput="{{ onProfileField('NOMCON') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
           <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Profesión</label>
             <input type="text" value="{{ profileEdit.OFICIO }}" onInput="{{ onProfileField('OFICIO') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
           <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">N.º de hijos</label>
@@ -1869,6 +1875,8 @@ class Component extends DCLogic {
     this.setState({ page: p }); const m=this.mainEl; if(m) m.scrollTop=0;
   }
   get mainEl(){ return this.host && this.host.querySelector ? this.host.querySelector("main") : document.querySelector("main"); }
+
+  normalizePhone(v){ return String(v||"").replace(/[^0-9]/g, "").slice(0, 9); }
 
   money(n){ return "S/ " + n.toLocaleString("es-PE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
@@ -2402,21 +2410,6 @@ class Component extends DCLogic {
       showProfile: this.state.showProfile,
       toggleProfile: ()=>this.setState(s=>({showProfile:!s.showProfile})),
       closeProfile: ()=>this.setState({showProfile:false}),
-      openPrefsFromProfile: ()=>{
-        const s = this.state.socio || {};
-        this.setState({showProfile:false, showPrefs:true,
-          socioDocide: s.DOCIDE||"",
-          socioDnicy: s.DNICY||"",
-          profileEdit:{
-            APEPAT:s.APEPAT||"", APEMAT:s.APEMAT||"", NOMBRE:s.NOMBRE||"",
-            NOMBC2:s.NOMBC2||"", NOMCON:s.NOMCON||"", DIRECC:s.DIRECC||"",
-            LOCALI:s.LOCALI||"", PROVIN:s.PROVIN||"", DEPART:s.DEPART||"",
-            TELCEL:s.TELCEL||"", CCIUDA:s.CCIUDA||"", ESTCIV:s.ESTCIV||"",
-            NCOMPL:s.NCOMPL||"", CARGAM:s.CARGAM||"", OFICIO:s.OFICIO||"",
-            SECTO1:s.SECTO1||""
-          }
-        });
-      },
       savePrefs: ()=>this.setState({showPrefs:false}),
       saveProfile: ()=>{
         if(!this.state.socio) return;
@@ -2518,7 +2511,7 @@ class Component extends DCLogic {
       onProfileField: (key) => (e) => this.setState(s => ({
         profileEdit: { ...s.profileEdit, [key]: e.target.value }
       })),
-      normalizePhone: (v) => String(v||"").replace(/[^0-9]/g, "").slice(0, 9),
+      normalizePhone: (v) => this.normalizePhone(v),
       profileSaving: false,
       profileSaveMsg: "",
       profileDiff: {},
