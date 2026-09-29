@@ -88,6 +88,16 @@
     <!-- CONTENT -->
     <main style="flex:1;background:#fff;border-top-left-radius:0;overflow-y:auto;min-height:0">
 
+      <sc-if value="{{ isSocio }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ profileIncomplete }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff3cd;color:#8a6d3b;padding:14px 56px;font-size:14px;display:flex;gap:12px;align-items:center">
+            <span style="font-weight:700">Tus datos están incompletos.</span>
+            <span>Completa tu perfil para que la cooperativa tenga tu información al día.</span>
+            <a onClick="{{ goSocioPerfil }}" style="margin-left:auto;color:#0043ce;font-weight:600;cursor:pointer;text-decoration:underline">Ir a Mi Perfil</a>
+          </div>
+        </sc-if>
+      </sc-if>
+
       <!-- ================= INICIO ================= -->
       <sc-if value="{{ isInicio }}" hint-placeholder-val="{{ true }}">
       <section>
@@ -1942,6 +1952,7 @@ class Component extends DCLogic {
         socio: data.socio,
         socioSource: data.source
       });
+      this.maybeShowOnboarding();
     }catch(e){
       console.error("[oidc] failed to load socio:", e);
     }
@@ -1992,6 +2003,11 @@ class Component extends DCLogic {
   maybeShowOnboarding(){
     try{
       if(!localStorage.getItem("coope_onboarding_done")){
+        if (this.state.auth.role === "socio") {
+          localStorage.setItem("coope_onboarding_done","1");
+          this.go("socio-perfil");
+          return;
+        }
         this.setState({ showOnboarding: true, onboardingStep: 1 });
       }
     }catch(e){}
@@ -2303,6 +2319,10 @@ class Component extends DCLogic {
 
       isAdmin: this.state.auth.role === "admin",
       isSocio: this.state.auth.role === "socio",
+      profileIncomplete: (() => {
+        const s = this.state.socio || {};
+        return PROFILE_KEY_FIELDS.some(k => s[k] == null || String(s[k]).trim() === "");
+      })(),
       isGuest: this.state.auth.role !== "admin" && this.state.auth.role !== "socio",
       logout: async ()=>{ 
         try{
