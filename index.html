@@ -1754,19 +1754,14 @@ const SOCIO_FIELDS = [
   {key:"OFICIO",label:"Profesi\u00f3n",bytes:20,type:"text"},
   {key:"SECTO1",label:"N.\u00ba de hijos",bytes:2,type:"text"}
 ];
-// Single source of truth for the editable profile form (PRD Mi Perfil R2):
-// the editable subset of SOCIO_FIELDS (all non-readOnly, non-clave fields).
 const PROFILE_EDIT_FIELDS = SOCIO_FIELDS.filter(f => !f.readOnly && f.type !== "clave");
-// R2: read-only identity labels come from catalogs, never hardcoded "DNI"/"Peruana".
 function catalogLabel(optsKey, value) {
   const opts = { TIPDID_OPTS, ESTCIV_OPTS, NACION_OPTS }[optsKey] || [];
   const hit = opts.find(o => String(o.v) === String(value));
   return hit ? hit.l : (value == null || value === "" ? "—" : String(value));
 }
-// R4: fields that drive the completeness banner.
 const PROFILE_KEY_FIELDS = ["DIRECC", "TELCEL", "NOMBC2", "OFICIO", "ESTCIV"];
 const TXT_LAYOUT_FIELDS = [...SOCIO_FIELDS, {key:"LUGNAC",label:"Lugar de nacimiento",bytes:6,type:"text",readOnly:true}];
-// Page registry (PRD R3): every nav key must have a rendered section flag.
 const PAGE_SECTIONS = {
   inicio:"isInicio", quienes:"isQuienes", ahorro:"isAhorro", proveedores:"isProveedores",
   prestamos:"isPrestamos", servicios:"isServicios", anuncios:"isAnuncios", registro:"isRegistro",
