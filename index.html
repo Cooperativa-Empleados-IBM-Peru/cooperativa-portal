@@ -1369,6 +1369,67 @@
         <div style="padding:22px;color:#8b95a1;font-size:14px">Esta sección es solo para administradores.</div>
       </sc-if>
 
+      <sc-if value="{{ isSocioPerfil }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:820px;margin:0 auto;padding:40px 32px">
+        <h2 style="font-size:28px;font-weight:800;margin-bottom:6px">Mi Perfil</h2>
+        <p style="font-size:15px;color:#52606d;margin-bottom:28px">Revisa tus datos. Lo que cambies queda pendiente y la cooperativa lo confirma.</p>
+
+        <h3 style="font-size:18px;font-weight:700;margin:0 0 14px">Datos de identidad</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px">
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Código de socio</label>
+            <input type="text" value="{{ socioDocume }}" disabled style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;background:#f4f4f4;color:#525252;cursor:not-allowed"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Tipo de documento</label>
+            <input type="text" value="{{ socioTipdidLabel }}" disabled style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;background:#f4f4f4;color:#525252;cursor:not-allowed"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">N° de documento</label>
+            <input type="text" value="{{ socioDocide }}" disabled style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;background:#f4f4f4;color:#525252;cursor:not-allowed"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Nacionalidad</label>
+            <input type="text" value="{{ socioNacionLabel }}" disabled style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;background:#f4f4f4;color:#525252;cursor:not-allowed"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">DNI del cónyuge</label>
+            <input type="text" value="{{ socioDnicy }}" disabled style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;background:#f4f4f4;color:#525252;cursor:not-allowed"></div>
+        </div>
+
+        <h3 style="font-size:18px;font-weight:700;margin:0 0 14px">Datos personales</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Apellido paterno</label>
+            <input type="text" value="{{ profileEdit.APEPAT }}" onInput="{{ onProfileField('APEPAT') }}" placeholder="Dejar en blanco = conservar el actual" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Apellido materno</label>
+            <input type="text" value="{{ profileEdit.APEMAT }}" onInput="{{ onProfileField('APEMAT') }}" placeholder="Dejar en blanco = conservar el actual" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div style="grid-column:1/-1"><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Nombres</label>
+            <input type="text" value="{{ profileEdit.NOMBRE }}" onInput="{{ onProfileField('NOMBRE') }}" placeholder="Dejar en blanco = conservar el actual" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Estado civil</label>
+            <select value="{{ profileEdit.ESTCIV }}" onInput="{{ onProfileField('ESTCIV') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;background:#fff;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff">
+              <option value="">Seleccionar...</option>
+              <option value="S">Soltero(a)</option><option value="C">Casado(a)</option>
+              <option value="V">Viudo(a)</option><option value="D">Divorciado(a)</option>
+            </select></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Correo</label>
+            <input type="email" value="{{ profileEdit.NOMBC2 }}" onInput="{{ onProfileField('NOMBC2') }}" placeholder="Dejar en blanco = conservar el actual" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Celular</label>
+            <input type="tel" value="{{ profileEdit.TELCEL }}" onInput="{{ onProfileField('TELCEL') }}" placeholder="Solo números, ej. 999888777" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div style="grid-column:1/-1"><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Dirección</label>
+            <input type="text" value="{{ profileEdit.DIRECC }}" onInput="{{ onProfileField('DIRECC') }}" placeholder="Dejar en blanco = conservar el actual" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Distrito</label>
+            <input type="text" value="{{ profileEdit.LOCALI }}" onInput="{{ onProfileField('LOCALI') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Provincia</label>
+            <input type="text" value="{{ profileEdit.PROVIN }}" onInput="{{ onProfileField('PROVIN') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Departamento</label>
+            <input type="text" value="{{ profileEdit.DEPART }}" onInput="{{ onProfileField('DEPART') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Profesión</label>
+            <input type="text" value="{{ profileEdit.OFICIO }}" onInput="{{ onProfileField('OFICIO') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">N.º de hijos</label>
+            <input type="text" value="{{ profileEdit.SECTO1 }}" onInput="{{ onProfileField('SECTO1') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+          <div><label style="display:block;font-size:13px;color:#8b95a1;margin-bottom:6px">Cargas familiares</label>
+            <input type="text" value="{{ profileEdit.CARGAM }}" onInput="{{ onProfileField('CARGAM') }}" style="width:100%;border:1px solid #d9dee4;border-radius:0;padding:12px 14px;font-family:inherit;outline:none" style-focus="border:1px solid #0043ce;box-shadow:0 0 0 3px #edf5ff"></div>
+        </div>
+
+        <div style="margin-top:28px;display:flex;gap:12px;align-items:center">
+          <button onClick="{{ saveProfile }}" style="background:#0043ce;color:#fff;border:none;border-radius:0;padding:14px 28px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit">Guardar cambios</button>
+          <span style="font-size:14px;color:#52606d">{{ socioSaveMsg }}</span>
+        </div>
+        <p style="font-size:13px;color:#8b95a1;margin-top:14px">Los cambios quedan en revisión y se confirman por la cooperativa. Dejar un campo en blanco significa que no cambia.</p>
+      </section>
+      </sc-if>
+
       <footer style="background:#161616;color:#c6c6c6;padding:22px 56px;font-size:13px;text-align:center">2026 © Cooperativa de Ahorro y Crédito de Empleados · Supervisada por la SBS · Última actualización: {{ lastUpdated }}</footer>
 
     </main>
@@ -1784,6 +1845,16 @@ class Component extends DCLogic {
   go(p){
     if (window.__dev && !PAGE_SECTIONS[p]) {
       console.error("[page-registry] nav key '" + p + "' has no rendered section — blank page bug.");
+    }
+    if (p === "socio-perfil" && this.state.socio) {
+      const s = this.state.socio;
+      this.setState({ showProfile:false, profileEdit: {
+        APEPAT:s.APEPAT||"", APEMAT:s.APEMAT||"", NOMBRE:s.NOMBRE||"",
+        NOMBC2:s.NOMBC2||"", NOMCON:s.NOMCON||"", DIRECC:s.DIRECC||"",
+        LOCALI:s.LOCALI||"", PROVIN:s.PROVIN||"", DEPART:s.DEPART||"",
+        TELCEL: this.normalizePhone(s.TELCEL||""), CCIUDA:s.CCIUDA||"", ESTCIV:s.ESTCIV||"",
+        NCOMPL:s.NCOMPL||"", CARGAM:s.CARGAM||"", OFICIO:s.OFICIO||"", SECTO1:s.SECTO1||""
+      } });
     }
     this.setState({ page: p }); const m=this.mainEl; if(m) m.scrollTop=0;
   }
@@ -2247,6 +2318,9 @@ class Component extends DCLogic {
       socioDocume: this.state.socio ? (this.state.socio.DOCUME || this.state.socio.CODEMPLEADO) : "",
       socioEmail: this.state.socio ? this.state.socio.NOMBC2 : "",
       socioPhone: this.state.socio ? this.state.socio.TELCEL : "",
+      socioTipdidLabel: this.state.socio ? catalogLabel("TIPDID_OPTS", this.state.socio.TIPDID) : "—",
+      socioNacionLabel: this.state.socio ? catalogLabel("NACION_OPTS", this.state.socio.NACION) : "—",
+      socioSaveMsg: this.state.profileSaveMsg || "",
 
       isLoginTabAdmin: this.state.loginTab === "admin",
       setLoginTabSocio: ()=>this.setState({loginTab:"socio", loginError:""}),
@@ -2410,7 +2484,7 @@ class Component extends DCLogic {
             showConfirmProfile: false,
             profileSaving: false,
             profileDiff: {},
-            profileSaveMsg: "Datos actualizados correctamente."
+            profileSaveMsg: "Guardado. Tu cambio queda en revisión y la cooperativa lo confirma."
           });
           setTimeout(()=>this.setState({profileSaveMsg:""}), 4000);
         }catch(e){
@@ -2423,6 +2497,7 @@ class Component extends DCLogic {
       onProfileField: (key) => (e) => this.setState(s => ({
         profileEdit: { ...s.profileEdit, [key]: e.target.value }
       })),
+      normalizePhone: (v) => String(v||"").replace(/[^0-9]/g, "").slice(0, 9),
       profileSaving: false,
       profileSaveMsg: "",
       profileDiff: {},
