@@ -1653,7 +1653,7 @@
 
 const TIPDID_OPTS = [{v:"1",l:"DNI"}];
 const ESTCIV_OPTS = [{v:"S",l:"Soltero"},{v:"C",l:"Casado"},{v:"D",l:"Divorciado"},{v:"V",l:"Viudo"}];
-const NACION_OPTS = [{v:"1",l:"Peruana"}];
+const NACION_OPTS = [{v:"1",l:"Peruana"},{v:"2",l:"Extranjera"}];
 const SOCIO_FIELDS = [
   {key:"DOCUME",label:"C\u00f3digo del socio",bytes:6,type:"clave",readOnly:true},
   {key:"TIPDID",label:"Tipo de documento",bytes:1,type:"select",optsKey:"TIPDID_OPTS",readOnly:true},
@@ -1677,6 +1677,17 @@ const SOCIO_FIELDS = [
   {key:"OFICIO",label:"Profesi\u00f3n",bytes:20,type:"text"},
   {key:"SECTO1",label:"N.\u00ba de hijos",bytes:2,type:"text"}
 ];
+// Single source of truth for the editable profile form (PRD Mi Perfil R2):
+// the editable subset of SOCIO_FIELDS (all non-readOnly, non-clave fields).
+const PROFILE_EDIT_FIELDS = SOCIO_FIELDS.filter(f => !f.readOnly && f.type !== "clave");
+// R2: read-only identity labels come from catalogs, never hardcoded "DNI"/"Peruana".
+function catalogLabel(optsKey, value) {
+  const opts = { TIPDID_OPTS, ESTCIV_OPTS, NACION_OPTS }[optsKey] || [];
+  const hit = opts.find(o => String(o.v) === String(value));
+  return hit ? hit.l : (value == null || value === "" ? "—" : String(value));
+}
+// R4: fields that drive the completeness banner.
+const PROFILE_KEY_FIELDS = ["DIRECC", "TELCEL", "NOMBC2", "OFICIO", "ESTCIV"];
 const TXT_LAYOUT_FIELDS = [...SOCIO_FIELDS, {key:"LUGNAC",label:"Lugar de nacimiento",bytes:6,type:"text",readOnly:true}];
 function emptySocioForm(){ const f={}; SOCIO_FIELDS.forEach(x=>{f[x.key]="";}); return f; }
 
